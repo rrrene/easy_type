@@ -67,7 +67,7 @@ module SimpleResource
     end
 
     ##
-    # SHould be in command if the property has defined an apply command
+    # Should be in command if the property has defined an apply command
     # and when it is modified e.g. in de @property_flush
     #
     def should_be_in_command(property)
