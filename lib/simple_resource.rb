@@ -1,0 +1,7 @@
+require 'simple_resource/version'
+require 'simple_resource/parameter'
+require 'simple_resource/type'
+require 'simple_resource/parameter'
+require 'simple_resource/mungers'
+require 'simple_resource/validators'
+require 'simple_resource/provider'
