@@ -41,6 +41,7 @@ module SimpleResource
       @property_hash[:ensure] = :present
       command = build_from_type(resource.on_create)
       command.execute
+      @property_flush = {}
     end
 
     def destroy
@@ -86,7 +87,7 @@ module SimpleResource
           end
 
           define_method(attr.to_s + "=") do |value|
-            @property_flush[attr] = value if resource[attr] != value
+            @property_flush[attr] = value
           end
         end
       end

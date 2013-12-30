@@ -16,5 +16,6 @@ module SimpleResource
 		if parent.ancestors.include?(Puppet::Parameter)
 			parent.send(:include, SimpleResource::Parameter)
 		end
+		parent.extend SimpleResource::FileIncluder
 	end
 end

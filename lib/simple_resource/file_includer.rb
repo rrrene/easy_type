@@ -1,5 +1,8 @@
 module SimpleResource
   module FileIncluder
+    def self.included(parent)
+      parent.extend(FileIncluder)
+    end
     ##
     #
     # This is an implementation of a C like include. You can use this at places where Puppet doesn't support parent-classed
