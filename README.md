@@ -101,6 +101,20 @@ end
 
 ```
 
+to use this resource, You must add the next file into the provider directory
+
+```ruby
+require 'simple_resource'
+
+Puppet::Type.type(:a_custom_type).provide(:simple) do
+  include SimpleResource::Provider
+
+  mk_resource_methods
+
+end
+```
+
+
 License
 -------
 
