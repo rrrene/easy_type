@@ -1,26 +1,23 @@
 source 'https://rubygems.org'
 
 group :development, :test do
-  gem 'coveralls',               :require => false
-  gem 'mime-types', '<2.0',      :require => false
   gem 'rake',                    :require => false
-  gem 'rspec-puppet',            :require => false
   gem 'puppetlabs_spec_helper',  :require => false
-  gem 'rspec-system',            :require => false
-  gem 'rspec-mocks',             :require => false
-  gem 'rspec-system-puppet',     :require => false
-  gem 'rspec-system-serverspec', :require => false
-  gem 'serverspec',              :require => false
-  gem 'puppet-lint',             :require => false
-  gem 'simplecov',               :require => false
-  gem 'beaker',                  :require => false
-  gem 'guard'
-  gem 'guard-rspec'
-  gem 'ruby_gntp' 
-  gem 'guard-rspec'
-  gem 'pry'
-  gem 'pry-debugger'
-  # gem 'pry-stack_explorer'
+  platform :ruby_19, :ruby_20 do
+    gem 'guard'
+    gem 'ruby_gntp' 
+    gem 'guard-rspec'
+    gem 'pry'
+    gem 'pry-debugger'
+    gem 'pry-stack_explorer'
+  end
+end
+
+group :test do
+  platform :ruby_19, :ruby_20 do
+    gem 'coveralls',               :require => false
+    gem 'simplecov',               :require => false
+  end
 end
 
 if puppetversion = ENV['PUPPET_GEM_VERSION']
