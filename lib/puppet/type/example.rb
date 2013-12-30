@@ -1,68 +1,92 @@
-require 'puppet/patches/parameter'
-require 'puppet/patches/type'
-require 'utils/validators'
-require 'utils/mungers'
-require 'utils/file_includer'
+require 'simple_resource'
 
 module Puppet
   #
   # Create a new type oracle_user. Oracle user, works in conjunction 
-  # with the SqlResource
+  # with the SqlResource provider
   #
-  newtype(:grant) do
+  newtype(:a_custom_type) do
+    include SimpleResource
+
+    ensurable
+    #
+    # Use set_command to set the base command given on createing, destroying and modifying 
+    # the resource
+    #
+    set_command(:just_a_method)
 
 
     to_get_raw_resources do
       #
-      # Use this method to get the information in raw form. This method must retsurn
-      # an array. For every instance of the resource available, an entry must be created
-      # 
+      # Fill in the code needed to get an array of reseources. The array must contain Hashes
+      # the Hash can have arbitrary elements. 
+      #
+
     end
 
     on_create do
-      #
-      #
-      #
+      # this is the statement that is added to the command (see set_command) to create a resource
+      # You can reference all type information using self[:attr] where :attr is a parameter or property 
+      # of the type 
+      "create user #{self[:name]}"
     end
 
     on_modify do
-      #
-      #
-      # 
+      # this is the statement that is added to the command (see set_command) to modify a resource
+      # You can reference all type information using self[:attr] where :attr is a parameter or property 
+      # of the type 
+      "alter user #{self[:name]}"
     end
 
     on_destroy do
-      #
-      #
-      #
+      # this is the statement that is added to the command (see set_command) to destroy a resource
+      # You can reference all type information using self[:attr] where :attr is a parameter or property 
+      # of the type 
+      "drop user #{self[:name]}"
     end
 
     newparam(:name) do
-      include ::Utils::Validators::NameValidator
-      desc "The user name for the rights"
+      include SimpleResource
+      include SimpleResource::Validators::Name  # Check simple_resource/validators for available validators
+      include SimpleResource::Mungers::Upcase   # Check simple_resource/validators for available mungers
+
+      desc "The user name"
 
       isnamevar
 
+      #
+      # Use this method to pick a part for the raw_resource hash. and translate it to the real resource hash
+      #
       to_translate_to_resource do | raw_resource|
-      	raw_resource[:username]
+        raw_resource['USERNAME'].upcase
       end
+
 
     end
 
-    newproperty(:grants, :array_matching => :all) do
-    	include ::Utils::Mungers::Upcase
-      desc "The right(s) to grant"
+    newproperty(:user_id) do
+      include SimpleResource
 
+      include SimpleResource::Validators::Integer   # Check simple_resource/validators for available validators
+      include SimpleResource::Mungers::Integer      # Check simple_resource/validators for available mungers
+
+      desc "The user id"
+
+      #
+      # Use this method to pick a part for the raw_resource hash. and translate it to the real resource hash
+      #
       to_translate_to_resource do | raw_resource|
-      	raw_resource[:grants]
+        raw_resource['USER_ID'].to_i
       end
 
+      #
+      # Use this method to append specific information for a porperty to the create or the update commands
+      #
       on_apply do
+        "default tablespace #{resource[:default_tablespace]}"
       end
 
     end
 
   end
 end
-
-
