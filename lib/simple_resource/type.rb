@@ -14,6 +14,22 @@ module SimpleResource
 
 		module ClassMethods
 			#
+			# set's the command to be executed
+			#
+			# example:
+			#  newtype(:oracle_user) do
+			#
+			#    command do
+		  #	    :sql
+	    #    end
+	    #
+			#
+			def set_command(method)
+				define_method(:command) do
+					method
+				end
+			end
+			#
 			# retuns the string needed to start the creation of an sql type
 			#
 			# example:

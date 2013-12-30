@@ -39,27 +39,27 @@ module SimpleResource
     def create
       @property_flush = @resource
       @property_hash[:ensure] = :present
-      command = build_sql_from_type(resource.on_create)
-      sql command
+      command = build_from_type(resource.on_create)
+      command.execute
     end
 
     def destroy
-      command = resource.on_destroy
-      sql command
+      command = CommandBuilder.new(self, resource.command, resource.on_destroy)
+      command.execute
       @property_hash.clear
       @property_flush = {}
     end
 
     def flush
       if @property_flush && @property_flush != {}
-        command = build_sql_from_type(resource.on_modify)
-        sql command
+        command = build_from_type(resource.on_modify)
+        command.execute
       end
     end
 
     private
-    def build_sql_from_type(command)
-      command << " "
+    def build_from_type(line)
+      command = CommandBuilder.new(self, resource.command, line)
       resource.properties.each do | prop |
         command << "#{prop.on_apply} " if should_be_in_command(prop)
       end
@@ -76,7 +76,9 @@ module SimpleResource
 
     module ClassMethods
       def mk_resource_methods
-        [resource_type.validproperties, resource_type.parameters].flatten.each do |attr|
+        attributes = [resource_type.validproperties, resource_type.parameters].flatten
+        raise Puppet::Error, 'no parameters or properties defined. Probably an error' if attributes == [:provider]
+        attributes.each do |attr|
           attr = attr.intern
           next if attr == :name
           define_method(attr) do

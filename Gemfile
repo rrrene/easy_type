@@ -7,6 +7,7 @@ group :development, :test do
   gem 'rspec-puppet',            :require => false
   gem 'puppetlabs_spec_helper',  :require => false
   gem 'rspec-system',            :require => false
+  gem 'rspec-mocks',             :require => false
   gem 'rspec-system-puppet',     :require => false
   gem 'rspec-system-serverspec', :require => false
   gem 'serverspec',              :require => false
@@ -17,9 +18,9 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'ruby_gntp' 
   gem 'guard-rspec'
-  gem 'debugger'
   gem 'pry'
-
+  gem 'pry-debugger'
+  # gem 'pry-stack_explorer'
 end
 
 if puppetversion = ENV['PUPPET_GEM_VERSION']

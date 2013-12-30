@@ -6,6 +6,7 @@ require 'simple_resource/mungers'
 require 'simple_resource/validators'
 require 'simple_resource/provider'
 require 'simple_resource/file_includer'
+require 'simple_resource/command_builder'
 
 module SimpleResource
 	def self.included(parent)
