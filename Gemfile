@@ -4,6 +4,10 @@ group :development, :test do
   gem 'rake',                    :require => false
   gem 'puppetlabs_spec_helper',  :require => false
   platform :ruby_19, :ruby_20 do
+    gem 'travis'
+    gem 'travis-lint'
+    gem 'vagrant-wrapper'
+    gem 'puppet-blacksmith'
     gem 'guard'
     gem 'ruby_gntp' 
     gem 'guard-rspec'
@@ -18,6 +22,11 @@ group :test do
     gem 'coveralls',               :require => false
     gem 'simplecov',               :require => false
   end
+    gem 'puppet-lint'
+    gem 'rspec-puppet', '~> 1.0.0'
+    gem 'rspec-system-puppet'
+    gem 'puppetlabs_spec_helper'
+    gem 'puppet-syntax'
 end
 
 if puppetversion = ENV['PUPPET_GEM_VERSION']
