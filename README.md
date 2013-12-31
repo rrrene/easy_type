@@ -1,4 +1,4 @@
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/hajee/simple_resource/trend.png)](https://bitdeli.com/free "Bitdeli Badge")[![Code Climate](https://codeclimate.com/github/hajee/simple_resource.png)](https://codeclimate.com/github/hajee/simple_resource) [![Build Status](https://travis-ci.org/hajee/simple_resource.png)](https://travis-ci.org/hajee/simple_resource) [![Dependency Status](https://gemnasium.com/hajee/simple_resource.png)](https://gemnasium.com/hajee/simple_resource) [![Coverage Status](https://coveralls.io/repos/hajee/simple_resource/badge.png)](https://coveralls.io/r/hajee/simple_resource)
+[![Code Climate](https://codeclimate.com/github/hajee/simple_resource.png)](https://codeclimate.com/github/hajee/simple_resource) [![Build Status](https://travis-ci.org/hajee/simple_resource.png)](https://travis-ci.org/hajee/simple_resource) [![Dependency Status](https://gemnasium.com/hajee/simple_resource.png)](https://gemnasium.com/hajee/simple_resource) [![Coverage Status](https://coveralls.io/repos/hajee/simple_resource/badge.png)](https://coveralls.io/r/hajee/simple_resource)
 
 
 simple_resource
