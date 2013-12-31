@@ -128,3 +128,7 @@ Bert Hajee hajee@moretIA.com
 Support
 -------
 Please log tickets and issues at our [Projects site](https://github.com/hajee/simple_resource)
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/hajee/simple_resource/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
