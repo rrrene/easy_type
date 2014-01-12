@@ -3,3 +3,6 @@ History
 
 30-12-2013  Inital version based on extraction of common code
             from Oracle types for prorail deployment
+
+12-01-2014	Version 0.2.0. Added support for having multiple before and after commands in
+						the CommandBuilder.Added support for getting the property_hash and the property_flush

@@ -48,7 +48,7 @@ describe SimpleResource::CommandBuilder do
 		subject {command.before('before')}
 
 		it "sets the before command" do
-			expect(subject.before).to eq('before')
+			expect(subject.before).to eq(['before'])
 		end
 	end
 
@@ -60,7 +60,7 @@ describe SimpleResource::CommandBuilder do
 		subject {command.after('after')}
 
 		it "sets the after command" do
-			expect(subject.after).to eq('after')
+			expect(subject.after).to eq(['after'])
 		end
 	end
 
@@ -84,12 +84,12 @@ describe SimpleResource::CommandBuilder do
 
 			it "no before results set" do
 				subject
-				expect(command.before_results).to be_nil
+				expect(command.before_results).to be_empty
 			end
 
 			it "no after results set" do
 				subject
-				expect(command.after_results).to be_nil
+				expect(command.after_results).to be_empty
 			end
 
 		end
@@ -106,12 +106,12 @@ describe SimpleResource::CommandBuilder do
 
 			it "before results set" do
 				subject
-				expect(command.before_results).to eql('dummy command executed with before')
+				expect(command.before_results).to eql(['dummy command executed with before'])
 			end
 
 			it "after results set" do
 				subject
-				expect(command.after_results).to eql('dummy command executed with after')
+				expect(command.after_results).to eql(['dummy command executed with after'])
 			end
 
 

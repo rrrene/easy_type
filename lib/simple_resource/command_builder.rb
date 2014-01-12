@@ -6,9 +6,11 @@ module SimpleResource
 		def initialize(context, command, line = '', options = {})
 			@context = context
 			@command = command
+			@before = []
+			@after = []
 			@line = line
-			@before_results = nil
-			@after_results = nil
+			@before_results = []
+			@after_results = []
 			@options = options
 		end
 
@@ -19,7 +21,7 @@ module SimpleResource
 
 		def before(command = nil)
 			if command
-				@before = command
+				@before << command
 				self
 			else
 				@before
@@ -28,7 +30,7 @@ module SimpleResource
 
 		def after(command = nil)
 			if command
-				@after = command
+				@after << command
 				self
 			else
 				@after
@@ -36,9 +38,13 @@ module SimpleResource
 		end
 
 		def execute
-			@before_results = @context.send(@command, @before, @options) if @before
+			@before.each do | before|
+				@before_results << @context.send(@command, before, @options)
+			end
 			value = @context.send(@command, @line, @options )
-			@after_results = @context.send(@command, @after, @options) if @after
+			@after.each do | after|
+				@after_results << @context.send(@command, after, @options)
+			end
 			value
 		end
 

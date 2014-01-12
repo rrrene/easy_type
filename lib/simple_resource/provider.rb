@@ -23,6 +23,8 @@ module SimpleResource
   #  end
   module Provider
 
+    attr_reader :property_flush, :property_hash
+
     def self.included(parent)
       parent.extend(ClassMethods)
     end
