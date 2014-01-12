@@ -1,5 +1,5 @@
 name    'hajee-simple_resource'
-version '0.1.0'
+version '0.1.1'
 source 'http:/www.github.com/hajee/simple_resource'
 author 'Bert Hajee'
 license 'Apache License, Version 2.0'
