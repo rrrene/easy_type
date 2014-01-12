@@ -62,11 +62,11 @@ module SimpleResource
 
     private
     def build_from_type(line)
-      command = CommandBuilder.new(self, resource.command, line)
+      command_builder = CommandBuilder.new(self, resource.command, line)
       resource.properties.each do | prop |
-        command << "#{prop.on_apply} " if should_be_in_command(prop)
+        command_builder << "#{prop.on_apply command_builder} " if should_be_in_command(prop)
       end
-      command
+      command_builder
     end
 
     ##

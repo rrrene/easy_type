@@ -14,6 +14,18 @@ module SimpleResource
 
 		module ClassMethods
 			#
+			# include's the parameter declaration
+			#
+			# example:
+			#  parameter(:name)
+	    #
+			#
+			def parameter(parameter_name)
+				include_file "puppet/type/#{name}/#{parameter_name}"
+			end
+			alias_method :property, :parameter
+
+			#
 			# set's the command to be executed
 			#
 			# example:

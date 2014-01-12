@@ -57,7 +57,7 @@ module Puppet
       	raw_resource[:my_property]
       end
 
-      on_apply do
+      on_apply do |builder| 
       	"my_property applied"
       end
 
