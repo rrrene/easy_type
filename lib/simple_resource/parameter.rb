@@ -12,6 +12,46 @@ module SimpleResource
 			parent.extend(ClassMethods)
 		end
 
+		#
+		# retuns the results from on_apply for all the fields specified. 
+		# Only return the field when it is not already managed by a normal
+		# change.
+		#
+		# examples:
+		#
+		# on_apply do
+    #  	"#{touch([:autoextend, :next]).join(' ')} maxsize #{should}"
+		# end
+		#
+		# on_apply do
+    #  	"#{touch :autoextend} maxsize #{should}"
+		# end
+		#
+		def touch(fields)
+			fields = Array(fields)
+			fields.collect do | field|
+				touch_field(field)
+			end
+		end
+
+		private
+
+			def touch_field(field)
+				klass = property_class(field)
+				#
+				# if the property is insync, we expect the normal handler to
+				# handle this case
+				#
+				klass.on_apply if klass.is == klass.should
+			end
+
+			def property_class(field)
+				klass = resource.properties.select {|p| p.name == field}.first
+				fail "field #{field} not defined." unless klass
+				klass
+			end
+
+
 		module ClassMethods
 			#
 			# retuns the string needed to modify this specific property of a  an sql type
