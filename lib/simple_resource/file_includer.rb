@@ -16,9 +16,9 @@ module SimpleResource
     #
     #
     def include_file(name)
-      file = get_file(name)
-      raise ArgumentError, "file #{name} not found" unless file
-      eval(IO.read(file))
+      full_name = get_file(name)
+      raise ArgumentError, "file #{name} not found" unless full_name
+      eval(IO.read(full_name), nil, full_name)
     end
 
     private
