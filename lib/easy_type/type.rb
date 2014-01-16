@@ -1,11 +1,11 @@
-module SimpleResource
+module EasyType
 
 	#
-	# This module contains all extensions used by SimpleResource within the type
+	# This module contains all extensions used by EasyType within the type
 	#
 	# To use it, include the following statement in your type
 	#
-	#  	include SimpleResource::Type
+	#  	include EasyType::Type
 	#
 	module Type
 		def self.included(parent)

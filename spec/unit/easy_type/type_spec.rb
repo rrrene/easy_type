@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'spec_helper'
-require 'simple_resource/type'
+require 'easy_type/type'
 
-describe SimpleResource::Type do
+describe EasyType::Type do
 
 	before do
 		class Test
-			include SimpleResource::Type
+			include EasyType::Type
 		end
 	end
 

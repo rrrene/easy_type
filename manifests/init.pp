@@ -1,6 +1,6 @@
-# == Class: simple_resource
+# == Class: easy_type
 #
-# Full description of class simple_resource here.
+# Full description of class easy_type here.
 #
 # === Parameters
 #
@@ -23,7 +23,7 @@
 #
 # === Examples
 #
-#  class { simple_resource:
+#  class { easy_type:
 #    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
 #  }
 #
@@ -35,7 +35,7 @@
 #
 # Copyright 2013 Your name here, unless otherwise noted.
 #
-class simple_resource {
+class easy_type {
 
 
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'spec_helper'
-require 'simple_resource'
+require 'easy_type'
 require 'puppet'
 
 
@@ -9,7 +9,7 @@ require 'puppet'
 module Puppet
 
   newtype(:test) do
-  	include SimpleResource
+  	include EasyType
 
     to_get_raw_resources do
     	[
@@ -35,8 +35,8 @@ module Puppet
     end
 
     newparam(:name) do
-	  	include SimpleResource
-      include SimpleResource::Validators::Name
+	  	include EasyType
+      include EasyType::Validators::Name
 
       isnamevar
 
@@ -51,7 +51,7 @@ module Puppet
     end
 
     newproperty(:my_property) do
-	  	include SimpleResource
+	  	include EasyType
 
       to_translate_to_resource do | raw_resource|
       	raw_resource[:my_property]
@@ -64,7 +64,7 @@ module Puppet
     end
 
   	provide(:simple) do
-  		include SimpleResource::Provider
+  		include EasyType::Provider
 		  mk_resource_methods
 
 			def do_command(line, options)

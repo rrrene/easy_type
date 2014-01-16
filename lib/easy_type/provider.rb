@@ -1,6 +1,6 @@
-module SimpleResource
+module EasyType
   #
-  # SimpleResource is a flushable provider. To use this provider, you have to 
+  # EasyType is a flushable provider. To use this provider, you have to 
   # add certain information to the type definition.
   # You MUST define following attributes on the type
   #

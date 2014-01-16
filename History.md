@@ -8,3 +8,5 @@ History
 						the CommandBuilder.Added support for getting the property_hash and the property_flush
 						Added support for including parameter and property file
 						pass the commandbuilder in the on_apply function
+
+16-02-2014	Renamed all to easy_type. It fits the purpose better

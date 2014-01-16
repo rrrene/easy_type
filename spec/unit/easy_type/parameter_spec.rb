@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'spec_helper'
-require 'simple_resource/parameter'
+require 'easy_type/parameter'
 
-describe SimpleResource::Parameter do
+describe EasyType::Parameter do
 
 	before do
 		class Test
-			include SimpleResource::Parameter
+			include EasyType::Parameter
 		end
 	end
 

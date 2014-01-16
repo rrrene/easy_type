@@ -1,12 +1,12 @@
-[![Code Climate](https://codeclimate.com/github/hajee/simple_resource.png)](https://codeclimate.com/github/hajee/simple_resource) [![Build Status](https://travis-ci.org/hajee/simple_resource.png)](https://travis-ci.org/hajee/simple_resource) [![Dependency Status](https://gemnasium.com/hajee/simple_resource.png)](https://gemnasium.com/hajee/simple_resource) [![Coverage Status](https://coveralls.io/repos/hajee/simple_resource/badge.png)](https://coveralls.io/r/hajee/simple_resource)
+[![Code Climate](https://codeclimate.com/github/hajee/easy_type.png)](https://codeclimate.com/github/hajee/easy_type) [![Build Status](https://travis-ci.org/hajee/easy_type.png)](https://travis-ci.org/hajee/easy_type) [![Dependency Status](https://gemnasium.com/hajee/easy_type.png)](https://gemnasium.com/hajee/easy_type) [![Coverage Status](https://coveralls.io/repos/hajee/easy_type/badge.png)](https://coveralls.io/r/hajee/easy_type)
 
 
-simple_resource
+easy_type
 ===============
 This module makes it easier to create custom types. To create a custom type use:
 
 ```ruby
-require 'simple_resource'
+require 'easy_type'
 
 module Puppet
   #
@@ -14,7 +14,7 @@ module Puppet
   # with the SqlResource provider
   #
   newtype(:a_custom_type) do
-    include SimpleResource
+    include EasyType
 
     ensurable
     #
@@ -54,9 +54,9 @@ module Puppet
     end
 
     newparam(:name) do
-      include SimpleResource
-      include SimpleResource::Validators::Name 	# Check simple_resource/validators for available validators
-      include SimpleResource::Mungers::upcase   # Check simple_resource/validators for available mungers
+      include EasyType
+      include EasyType::Validators::Name 	# Check easy_type/validators for available validators
+      include EasyType::Mungers::upcase   # Check easy_type/validators for available mungers
 
       desc "The user name"
 
@@ -73,10 +73,10 @@ module Puppet
     end
 
     newproperty(:user_id) do
-      include SimpleResource
+      include EasyType
 
-      include SimpleResource::Validators::Integer 	# Check simple_resource/validators for available validators
-      include SimpleResource::Mungers::Integer			# Check simple_resource/validators for available mungers
+      include EasyType::Validators::Integer 	# Check easy_type/validators for available validators
+      include EasyType::Mungers::Integer			# Check easy_type/validators for available mungers
 
       desc "The user id"
 
@@ -104,10 +104,10 @@ end
 to use this resource, You must add the next file into the provider directory
 
 ```ruby
-require 'simple_resource'
+require 'easy_type'
 
 Puppet::Type.type(:a_custom_type).provide(:simple) do
-  include SimpleResource::Provider
+  include EasyType::Provider
 
   mk_resource_methods
 
@@ -127,8 +127,8 @@ Bert Hajee hajee@moretIA.com
 
 Support
 -------
-Please log tickets and issues at our [Projects site](https://github.com/hajee/simple_resource)
+Please log tickets and issues at our [Projects site](https://github.com/hajee/easy_type)
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/hajee/simple_resource/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/hajee/easy_type/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

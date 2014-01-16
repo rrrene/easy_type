@@ -1,3 +1,3 @@
-module SimpleResource
+module EasyType
 	VERSION = "0.0.1"
 end

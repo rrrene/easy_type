@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 require 'spec_helper'
-require 'simple_resource/validators'
+require 'easy_type/validators'
 
-describe SimpleResource::Validators::Name do
-	include SimpleResource::Validators::Name
+describe EasyType::Validators::Name do
+	include EasyType::Validators::Name
 
 	it "does nothing on a valid name string" do
 		expect(validate('bert')).to eql nil

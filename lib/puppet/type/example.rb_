@@ -1,4 +1,4 @@
-require 'simple_resource'
+require 'easy_type'
 
 module Puppet
   #
@@ -6,7 +6,7 @@ module Puppet
   # with the SqlResource provider
   #
   newtype(:a_custom_type) do
-    include SimpleResource
+    include EasyType
 
     ensurable
     #
@@ -46,9 +46,9 @@ module Puppet
     end
 
     newparam(:name) do
-      include SimpleResource
-      include SimpleResource::Validators::Name  # Check simple_resource/validators for available validators
-      include SimpleResource::Mungers::Upcase   # Check simple_resource/validators for available mungers
+      include EasyType
+      include EasyType::Validators::Name  # Check easy_type/validators for available validators
+      include EasyType::Mungers::Upcase   # Check easy_type/validators for available mungers
 
       desc "The user name"
 
@@ -65,10 +65,10 @@ module Puppet
     end
 
     newproperty(:user_id) do
-      include SimpleResource
+      include EasyType
 
-      include SimpleResource::Validators::Integer   # Check simple_resource/validators for available validators
-      include SimpleResource::Mungers::Integer      # Check simple_resource/validators for available mungers
+      include EasyType::Validators::Integer   # Check easy_type/validators for available validators
+      include EasyType::Mungers::Integer      # Check easy_type/validators for available mungers
 
       desc "The user id"
 

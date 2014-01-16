@@ -1,4 +1,4 @@
-module SimpleResource
+module EasyType
 	module Validators
 		module Name
 

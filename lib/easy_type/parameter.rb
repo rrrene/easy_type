@@ -1,9 +1,9 @@
-module SimpleResource
+module EasyType
 	#
-	# This module contains all extensions for the Parameter class used by SimpleResource
+	# This module contains all extensions for the Parameter class used by EasyType
 	# To use it, include the following statement in your parameter of property block
 	#
-	#  	include SimpleResource::Parameter
+	#  	include EasyType::Parameter
 	#
 	#
 	module Parameter

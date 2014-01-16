@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 require 'spec_helper'
-require 'simple_resource/command_builder'
+require 'easy_type/command_builder'
 
 
-describe SimpleResource::CommandBuilder do
+describe EasyType::CommandBuilder do
 
 	describe ".new" do
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 require 'spec_helper'
-require 'simple_resource/mungers'
+require 'easy_type/mungers'
 
-describe SimpleResource::Mungers::Integer do
-	include SimpleResource::Mungers::Integer
+describe EasyType::Mungers::Integer do
+	include EasyType::Mungers::Integer
 
 	it "returns an integer when given an integer like string" do
 		expect(munge('1')).to eql 1
@@ -20,8 +20,8 @@ describe SimpleResource::Mungers::Integer do
 
 end
 
-describe SimpleResource::Mungers::Size do
-	include SimpleResource::Mungers::Size
+describe EasyType::Mungers::Size do
+	include EasyType::Mungers::Size
 
 	it "returns an integer when given an integer like string" do
 		expect(munge('100')).to eql 100
@@ -41,8 +41,8 @@ describe SimpleResource::Mungers::Size do
 
 end
 
-describe SimpleResource::Mungers::Upcase do
-	include SimpleResource::Mungers::Upcase
+describe EasyType::Mungers::Upcase do
+	include EasyType::Mungers::Upcase
 
 	it "returns an lowercase version of the input when it contains non-capitals" do
 		expect(munge('Hallo')).to eql 'HALLO'
@@ -53,8 +53,8 @@ describe SimpleResource::Mungers::Upcase do
 
 end
 
-describe SimpleResource::Mungers::Downcase do
-	include SimpleResource::Mungers::Downcase
+describe EasyType::Mungers::Downcase do
+	include EasyType::Mungers::Downcase
 
 	it "returns an lowercase version of the input when it contains capitals" do
 		expect(munge('Hallo')).to eql 'hallo'

@@ -1,4 +1,4 @@
-module SimpleResource
+module EasyType
   module FileIncluder
     def self.included(parent)
       parent.extend(FileIncluder)

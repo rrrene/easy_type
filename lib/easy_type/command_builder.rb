@@ -1,4 +1,4 @@
-module SimpleResource
+module EasyType
 	class CommandBuilder
 		attr_accessor :command, :line
 		attr_reader :before_results, :after_results, :options
