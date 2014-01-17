@@ -17,6 +17,7 @@ module EasyType
         case size
         when /^\d+(K|k)$/ then size.chop.to_i * 1024
         when /^\d+(M|m)$/ then size.chop.to_i * 1024 * 1024
+        when /^\d+(G|g)$/ then size.chop.to_i * 1024 * 1024 * 1024
         when /^\d+$/ then size.to_i
         else
           fail("invalid size")
