@@ -42,7 +42,7 @@ module EasyType
 				# if the property is insync, we expect the normal handler to
 				# handle this case
 				#
-				klass.on_apply if klass.is == klass.should
+				klass.on_apply if klass.value == klass.should
 			end
 
 			def property_class(field)
