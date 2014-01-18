@@ -1,3 +1,5 @@
+require 'easy_type/group_methods'
+
 module EasyType
 
 	#
@@ -13,6 +15,25 @@ module EasyType
 		end
 
 		module ClassMethods
+			#
+			# define a group of parameters. A group means a change in one of
+			# it's members all the information in the group is added tot 
+			# the command
+			#
+			# example:
+			#  group(:name) do # name is optional
+			# 		property :a
+			# 		property :b
+			#	 end
+			#
+			def group(group_name = :default, &block)
+				include EasyType::FileIncluder
+				include EasyType::GroupMethods
+
+			  @group_name = group_name # make it global
+				@groups ||= {}
+				yield if block
+			end
 			#
 			# include's the parameter declaration
 			#
