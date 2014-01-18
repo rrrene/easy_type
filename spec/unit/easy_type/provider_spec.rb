@@ -9,6 +9,9 @@ describe 'the provider' do
 		load File.join(File.dirname(__FILE__),'test_type.rb')
 	end
 
+	after do
+		Puppet::Type.rmtype(:test)
+	end
 
 	describe ".instances" do
 

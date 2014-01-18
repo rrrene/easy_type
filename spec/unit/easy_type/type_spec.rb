@@ -16,7 +16,7 @@ describe EasyType::Type do
 
 	end
 
-	after(:each) do
+	after do
 		Puppet::Type.rmtype(:test)
 	end
 
