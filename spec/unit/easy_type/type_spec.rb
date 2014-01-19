@@ -122,7 +122,7 @@ describe EasyType::Type do
 			end
 
 			it "raises an error" do
-				expect{subject}.to raise_error(RuntimeError)
+				expect{subject}.to raise_error(NameError)
 			end
 		end
 
@@ -147,8 +147,17 @@ describe EasyType::Type do
 			end
 
 			it "defines a type" do
-				# expect( defined?(Puppet::Type::Test::A_test)).to be_true
-			end
+				expect( Puppet::Type::Test.groups).to include(:test)
+			end 
+
+			it "the group to include the parameter" do
+				expect( Puppet::Type::Test.parameters_in_group(:test)).to include(Puppet::Type::Test::ParameterB_test)
+			end 
+
+			it "the group to include the property" do
+				expect( Puppet::Type::Test.parameters_in_group(:test)).to include(Puppet::Type::Test::A_test)
+			end 
+
 
 		end
 	end

@@ -57,6 +57,11 @@ module Puppet
 
     end
 
+    group(:test) do
+      property :first_in_group
+      property :second_in_group
+    end
+
   	provide(:simple) do
   		include EasyType::Provider
 		  mk_resource_methods

@@ -69,22 +69,48 @@ describe 'the provider' do
 
 		describe "modify" do
 
-			it "calls on_update on the type" do
-				resource.provider.my_property = "changed"
-				expect_any_instance_of(subject).to receive(:on_modify).and_call_original
-				resource.provider.flush
+			context "modifying a property outside a group" do
+
+				it "calls on_update on the type" do
+					resource.provider.my_property = "changed"
+					expect_any_instance_of(subject).to receive(:on_modify).and_call_original
+					resource.provider.flush
+				end
+
+				it "calls on_apply on the modified propertie" do
+					resource.provider.my_property = "changed"
+					expect_any_instance_of(Puppet::Type::Test::My_property).to receive(:on_apply).and_call_original
+					resource.provider.flush
+				end
+
+				it "executes the command" do
+					resource.provider.my_property = "changed"
+					expect(resource.provider).to receive(:do_command).and_call_original
+					resource.provider.flush
+				end
 			end
 
-			it "calls on_apply on the properties" do
-				resource.provider.my_property = "changed"
-				expect_any_instance_of(Puppet::Type::Test::My_property).to receive(:on_apply).and_call_original
-				resource.provider.flush
-			end
+			context "modifying a property in a group" do
 
-			it "executes the command" do
-				resource.provider.my_property = "changed"
-				expect(resource.provider).to receive(:do_command).and_call_original
-				resource.provider.flush
+				it "calls on_update on the type" do
+					resource.provider.first_in_group = "changed"
+					expect_any_instance_of(subject).to receive(:on_modify).and_call_original
+					resource.provider.flush
+				end
+
+				it "calls on_apply on all the properties in the group" do
+					resource.provider.first_in_group = "changed"
+					expect_any_instance_of(Puppet::Type::Test::First_in_group).to receive(:on_apply).and_call_original
+					# expect_any_instance_of(Puppet::Type::Test::Second_in_group).to receive(:on_apply).and_call_original
+					debugger
+					resource.provider.flush
+				end
+
+				xit "executes the command" do
+					resource.provider.my_property = "changed"
+					expect(resource.provider).to receive(:do_command).and_call_original
+					resource.provider.flush
+				end
 			end
 
 

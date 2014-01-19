@@ -35,6 +35,18 @@ module EasyType
 				yield if block
 			end
 			#
+			# return all groups in this type
+			#
+			def groups
+				@groups
+			end
+			#
+			# return all groups in this type
+			#
+			def parameters_in_group(name) 
+				@groups.fetch(name) { fail "no group defined with name #{name}"}
+			end
+			#
 			# include's the parameter declaration
 			#
 			# example:
