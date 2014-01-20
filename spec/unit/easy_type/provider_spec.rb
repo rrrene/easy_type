@@ -43,7 +43,14 @@ describe 'the provider' do
 
 	describe "basic resource methods" do
 
-		let(:resource) { Puppet::Type::Test.new(:name => 'a_test', :ensure => 'present', :my_property => 'my stuff')}
+		let(:resource) { 
+			Puppet::Type::Test.new(
+				:name => 'a_test', 
+				:ensure => 'present',
+				:my_property => 'my stuff',
+				:first_in_group => 'YES! I am first',
+				:second_in_group => 'YES! I am second'
+			)}
 
 		describe "create" do
 
@@ -101,13 +108,12 @@ describe 'the provider' do
 				it "calls on_apply on all the properties in the group" do
 					resource.provider.first_in_group = "changed"
 					expect_any_instance_of(Puppet::Type::Test::First_in_group).to receive(:on_apply).and_call_original
-					# expect_any_instance_of(Puppet::Type::Test::Second_in_group).to receive(:on_apply).and_call_original
-					debugger
+					expect_any_instance_of(Puppet::Type::Test::Second_in_group).to receive(:on_apply).and_call_original
 					resource.provider.flush
 				end
 
-				xit "executes the command" do
-					resource.provider.my_property = "changed"
+				it "executes the command" do
+					resource.provider.first_in_group = "changed"
 					expect(resource.provider).to receive(:do_command).and_call_original
 					resource.provider.flush
 				end

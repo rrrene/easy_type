@@ -109,7 +109,7 @@ describe EasyType::Type do
 	end
 
 
-	describe "group" do
+	describe ".group" do
 
 		context "a group with invalid content" do
 			subject do
@@ -151,11 +151,11 @@ describe EasyType::Type do
 			end 
 
 			it "the group to include the parameter" do
-				expect( Puppet::Type::Test.parameters_in_group(:test)).to include(Puppet::Type::Test::ParameterB_test)
+				expect( Puppet::Type::Test.groups.include_property?(Puppet::Type::Test::ParameterB_test)).to be_true
 			end 
 
 			it "the group to include the property" do
-				expect( Puppet::Type::Test.parameters_in_group(:test)).to include(Puppet::Type::Test::A_test)
+				expect( Puppet::Type::Test.groups.include_property?(Puppet::Type::Test::A_test)).to be_true
 			end 
 
 
