@@ -16,14 +16,14 @@ module EasyType
     #
     #
     def include_file(name)
-      full_name = get_file(name)
+      full_name = get_ruby_file(name)
       raise ArgumentError, "file #{name} not found" unless full_name
       eval(IO.read(full_name), nil, full_name)
     end
 
     private
       # @private
-      def get_file(name)
+      def get_ruby_file(name)
         name = name + '.rb' unless name =~ /\.rb$/
         path = $LOAD_PATH.find { |dir| File.exist?(File.join(dir, name)) }
         path and File.join(path, name)
