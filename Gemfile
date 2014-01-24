@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 
 group :development, :test do
   gem 'rake',                    :require => false
-  gem 'puppetlabs_spec_helper',  :require => false
   platform :ruby_19, :ruby_20 do
     gem 'travis'
     gem 'travis-lint'

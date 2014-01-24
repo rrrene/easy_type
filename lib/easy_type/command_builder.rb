@@ -56,6 +56,7 @@ module EasyType
 		end
 
 		def method?(method_or_command)
+			method_or_command = method_or_command.to_s if RUBY_VERSION == "1.8.7"
 			@context.methods.include?(method_or_command)
 		end
 
