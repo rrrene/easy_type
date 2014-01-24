@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'spec_helper'
 require 'easy_type/command_builder'
 
@@ -64,55 +66,65 @@ describe EasyType::CommandBuilder do
 
 	describe "#execute" do
 
-		before do
-			def dummy_command(value, options)
-				"dummy command executed with #{value}"
-			end
-		end
+		context "command set to a local method" do
 
-		let(:command) {described_class.new(self, :dummy_command, 'hallo')}
-		subject {command.execute}
-
-
-		context "no before & no after set" do
-
-			it "executes the command with the line" do
-				expect(subject).to eql('dummy command executed with hallo')
-			end
-
-			it "no before results set" do
-				subject
-				expect(command.before_results).to be_empty
-			end
-
-			it "no after results set" do
-				subject
-				expect(command.after_results).to be_empty
-			end
-
-		end
-
-		context "with before & with after set" do
 			before do
-				command.after('after')
-				command.before('before')
+				def dummy_command(value, options)
+					"#{value}"
+				end
 			end
 
-			it "executes the command with the line" do
-				expect(subject).to eql('dummy command executed with hallo')
+			let(:command) {described_class.new(self, :dummy_command, "main\n")}
+			subject {command.execute}
+
+
+			context "no before & no after set" do
+
+				it_behaves_like "executes the command with the line" 
+				it_behaves_like "no before results set"
+				it_behaves_like "no after results set"
 			end
 
-			it "before results set" do
-				subject
-				expect(command.before_results).to eql(['dummy command executed with before'])
+			context "with before & with after set" do
+
+				before do
+					command.after("after\n")
+					command.before("before\n")
+				end
+
+				it_behaves_like "executes the command with the line" 
+				it_behaves_like "before results set"
+				it_behaves_like "after results set"
+
+			end
+		end
+
+
+		context "command set to a non existing method" do
+
+			let(:command) {described_class.new(self, :echo, 'main')}
+			subject {command.execute}
+
+
+			context "no before & no after set" do
+
+				it_behaves_like "executes the command with the line" 
+				it_behaves_like "no before results set"
+				it_behaves_like "no after results set"
 			end
 
-			it "after results set" do
-				subject
-				expect(command.after_results).to eql(['dummy command executed with after'])
+			context "with before & with after set" do
+
+				before do
+					command.after('after')
+					command.before('before')
+				end
+
+				it_behaves_like "executes the command with the line" 
+				it_behaves_like "before results set"
+				it_behaves_like "after results set"
+
 			end
-
-
 		end
 
 

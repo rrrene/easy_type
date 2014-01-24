@@ -39,14 +39,34 @@ module EasyType
 
 		def execute
 			@before.each do | before|
-				@before_results << @context.send(@command, before, @options)
+				@before_results << execute_method_or_host_command(@command, before, @options)
 			end
-			value = @context.send(@command, @line, @options ) if @line
+			value =execute_method_or_host_command(@command, @line, @options ) if @line
 			@after.each do | after|
-				@after_results << @context.send(@command, after, @options)
+				@after_results << execute_method_or_host_command(@command, after, @options)
 			end
 			value
 		end
+
+		private
+
+		def execute_method_or_host_command(command_or_host_command, line, options)
+			method?(command_or_host_command) ? execute_method(command_or_host_command, line, options) : 
+				execute_host_command(command_or_host_command, line, options)
+		end
+
+		def method?(method_or_command)
+			@context.methods.include?(method_or_command)
+		end
+
+		def execute_method(method, line, options)
+			@context.send(command, line, options)
+		end
+
+		def execute_host_command(host_command, line, options)
+			Puppet::Util::Execution.execute [host_command, line]
+		end
+
 
 	end
 end

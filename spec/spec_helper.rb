@@ -10,6 +10,7 @@ require 'rubygems'
 require 'rspec/mocks'
 require 'puppet'
 require 'puppetlabs_spec_helper/puppetlabs_spec_helper'
+require 'support/shared_examples'
 
 
 RSpec.configure do |configuration|

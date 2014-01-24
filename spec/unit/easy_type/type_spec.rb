@@ -161,5 +161,22 @@ describe EasyType::Type do
 
 		end
 	end
+
+	describe ".set_command" do
+
+
+		before do
+			class Puppet::Type::Test
+				include EasyType
+
+				set_command :a_test_method
+			end
+		end
+
+		it "when type executes command defined command_method is called" do
+			expect(subject.command).to eq :a_test_method
+		end
+	end
+
 end
 

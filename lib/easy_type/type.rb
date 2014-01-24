@@ -90,9 +90,11 @@ module EasyType
 	    #    end
 	    #
 			#
-			def set_command(method)
-				define_method(:command) do
-					method
+			def set_command(method_or_command)
+				if defined?(method_or_command)
+					define_method(:command) do
+						method_or_command
+					end
 				end
 			end
 			#
