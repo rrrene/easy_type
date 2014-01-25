@@ -14,6 +14,10 @@ module Puppet
 
     ensurable
 
+    def do_command(line, options)
+      "do command #{line}"
+    end
+
 		set_command(:do_command)
 
     on_create do
@@ -65,10 +69,6 @@ module Puppet
   	provide(:simple) do
   		include EasyType::Provider
 		  mk_resource_methods
-
-			def do_command(line, options)
-				"do command #{line}"
-			end
   	end
 
 
