@@ -12,8 +12,8 @@ require 'easy_type/template'
 
 module EasyType
 	def self.included(parent)
-		include EasyType::FileIncluder
-		include EasyType::Template
+		parent.send(:include, EasyType::FileIncluder)
+		parent.send(:include, EasyType::Template)
 		if parent.ancestors.include?(Puppet::Type)
 			parent.send(:include, EasyType::Type)
 		end
