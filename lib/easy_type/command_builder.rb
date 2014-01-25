@@ -5,7 +5,7 @@ module EasyType
 
 		def initialize(context, command, line = '', options = {})
 			@context = context
-			@command = command
+			@command = translate_to_method(command)
 			@before = []
 			@after = []
 			@line = line
@@ -39,35 +39,35 @@ module EasyType
 
 		def execute
 			@before.each do | before|
-				@before_results << execute_method_or_host_command(@command, before, @options)
+				@before_results << @command.call(before, @options)
 			end
-			value =execute_method_or_host_command(@command, @line, @options ) if @line
+			value = @command.call(@line, @options ) if @line
 			@after.each do | after|
-				@after_results << execute_method_or_host_command(@command, after, @options)
+				@after_results << @command.call(after, @options)
 			end
 			value
 		end
 
 		private
 
-		def execute_method_or_host_command(command_or_host_command, line, options)
-			method?(command_or_host_command) ? execute_method(command_or_host_command, line, options) : 
-				execute_host_command(command_or_host_command, line, options)
+		def translate_to_method(method_identifier)
+			case  method_identifier.class.to_s
+				when 'Symbol', 'String'
+					valid_method_for(method_identifier.to_sym)
+				when 'Method'
+					method_identifier
+			else 
+				fail("easy_type: invalid method identifier passed to command builder")
+			end
 		end
 
-		def method?(method_or_command)
-			method_or_command = method_or_command.to_s if RUBY_VERSION == "1.8.7"
-			@context.methods.include?(method_or_command)
+		def valid_method_for(method_identifier)
+			method_identifier = method_identifier.to_s if RUBY_VERSION == "1.8.7"
+			unless @context.methods.include?(method_identifier) 
+				fail "easy_type: unknown method identifier passed to command builder"
+			end
+			@context.method(method_identifier)
 		end
-
-		def execute_method(method, line, options)
-			@context.send(command, line, options)
-		end
-
-		def execute_host_command(host_command, line, options)
-			Puppet::Util::Execution.execute [host_command, line]
-		end
-
 
 	end
 end

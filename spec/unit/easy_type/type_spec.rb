@@ -190,7 +190,7 @@ describe EasyType::Type do
 			module Puppet
 				class Type
 					class Test
-						def a_test_method
+						def self.a_test_method
 							"called a test method"
 						end
 
@@ -201,7 +201,7 @@ describe EasyType::Type do
 		end
 
 		it "when type executes command defined command_method is called" do
-			expect(subject.command).to eq :a_test_method
+			expect(subject.command).to eq "called a test method"
 		end
 	end
 

@@ -47,7 +47,7 @@ module EasyType
     end
 
     def destroy
-      command = CommandBuilder.new(model, resource.command, resource.on_destroy)
+      command = CommandBuilder.new(model, resource.method(:command), resource.on_destroy)
       command.execute
       @property_hash.clear
       @property_flush = {}
@@ -62,7 +62,7 @@ module EasyType
 
     private
     def build_from_type(line)
-      command_builder = CommandBuilder.new(model, resource.command, line)
+      command_builder = CommandBuilder.new(model, resource.method(:command), line)
       resource.properties.each do | prop |
         command_builder << "#{prop.on_apply command_builder} " if should_be_in_command(prop)
       end

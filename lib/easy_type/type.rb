@@ -91,10 +91,8 @@ module EasyType
 	    #
 			#
 			def set_command(method_or_command)
-				if defined?(method_or_command)
-					define_method(:command) do
-						method_or_command
-					end
+				define_method(:command) do | *args |
+					self.class.send(method_or_command, *args)
 				end
 			end
 			#

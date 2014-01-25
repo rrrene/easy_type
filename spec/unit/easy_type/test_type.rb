@@ -14,7 +14,7 @@ module Puppet
 
     ensurable
 
-    def do_command(line, options)
+    def self.do_command(line, options)
       "do command #{line}"
     end
 
