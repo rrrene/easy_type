@@ -1,6 +1,8 @@
 begin
 	require 'coveralls'
-	Coveralls.wear!
+	Coveralls.wear! do
+		add_filter 'test_type.rb'
+	end
 rescue LoadError
 	puts "No Coveralls support"
 end
