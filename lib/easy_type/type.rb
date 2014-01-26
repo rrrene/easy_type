@@ -91,10 +91,23 @@ module EasyType
 	    #
 			#
 			def set_command(method_or_command)
+				unless methods.include?(method_or_command)
+					define_os_command_method(method_or_command)
+				end
 				define_method(:command) do | *args |
 					self.class.send(method_or_command, *args)
 				end
 			end
+
+			def define_os_command_method(method_or_command)
+				eigenclass = class << self; self; end
+				eigenclass.send(:define_method, method_or_command) do | *args|
+					command = args.dup.unshift(method_or_command) 
+					Puppet::Util::Execution.execute( command)
+				end
+			end
+
+			# private_class_method :define_os_command_method
 			#
 			# retuns the string needed to start the creation of an sql type
 			#

@@ -186,23 +186,58 @@ describe EasyType::Type do
 	describe ".set_command" do
 
 
-		before do
-			module Puppet
-				class Type
-					class Test
-						def self.a_test_method
-							"called a test method"
-						end
+		context "is called with a valid method" do
+			before do
+				module Puppet
+					class Type
+						class Test
+							def self.an_existing_method
+								"called a test method"
+							end
 
-						set_command :a_test_method
+							set_command :an_existing_method
+						end
 					end
 				end
 			end
+
+			it "defines a method command" do
+				expect(subject.methods).to include(:command)
+			end
+
+			it "when type executes command defined command_method is called" do
+				expect(subject.command).to eq "called a test method"
+			end
 		end
 
-		it "when type executes command defined command_method is called" do
-			expect(subject.command).to eq "called a test method"
+		context "is called with just a symbol, representing no method" do
+
+			before do
+				module Puppet
+					class Type
+						class Test
+
+							set_command :echo
+						end
+					end
+				end
+			end
+
+			it "defines a method command" do
+				expect(subject.methods).to include(:command)
+			end
+
+			it "defines a method named after the command" do
+				expect(subject.class.methods).to include(:echo) 
+			end
+
+			it "when command is called, the os command is given" do
+				expect(subject.command('hi there')).to eq("hi there\n") 
+			end
+
+
 		end
+
 	end
 
 end
