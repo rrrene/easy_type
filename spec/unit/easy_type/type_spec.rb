@@ -202,7 +202,8 @@ describe EasyType::Type do
 			end
 
 			it "defines a method command" do
-				expect(subject.methods).to include(:command)
+				# Using the .map {|m| m.to_sym} because Ruby 1.8.7 returns strings instead of symbols
+				expect(subject.methods.map {|m| m.to_sym}).to include(:command)
 			end
 
 			it "when type executes command defined command_method is called" do
@@ -224,11 +225,13 @@ describe EasyType::Type do
 			end
 
 			it "defines a method command" do
-				expect(subject.methods).to include(:command)
+				# Using the .map {|m| m.to_sym} because Ruby 1.8.7 returns strings instead of symbols
+				expect(subject.methods.map {|m| m.to_sym}).to include(:command)
 			end
 
 			it "defines a method named after the command" do
-				expect(subject.class.methods).to include(:echo) 
+				# Using the .map {|m| m.to_sym} because Ruby 1.8.7 returns strings instead of symbols
+				expect(subject.class.methods.map {|m| m.to_sym}).to include(:echo) 
 			end
 
 			it "when command is called, the os command is given" do

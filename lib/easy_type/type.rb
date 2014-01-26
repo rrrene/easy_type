@@ -91,6 +91,7 @@ module EasyType
 	    #
 			#
 			def set_command(method_or_command)
+				method_or_command = method_or_command.to_s if RUBY_VERSION == "1.8.7"
 				unless methods.include?(method_or_command)
 					define_os_command_method(method_or_command)
 				end
@@ -99,6 +100,7 @@ module EasyType
 				end
 			end
 
+			# private
 			def define_os_command_method(method_or_command)
 				eigenclass = class << self; self; end
 				eigenclass.send(:define_method, method_or_command) do | *args|
@@ -107,7 +109,6 @@ module EasyType
 				end
 			end
 
-			# private_class_method :define_os_command_method
 			#
 			# retuns the string needed to start the creation of an sql type
 			#
