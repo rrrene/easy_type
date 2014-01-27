@@ -5,7 +5,7 @@ module EasyType
 		  ##
 		  #
 		  #
-			def munge(value)
+			def unsafe_munge(value)
 				Integer(value)
       end
 
@@ -13,7 +13,7 @@ module EasyType
 
 		module Size
 
-			def munge(size)
+			def unsafe_munge(size)
         case size
         when /^\d+(K|k)$/ then size.chop.to_i * 1024
         when /^\d+(M|m)$/ then size.chop.to_i * 1024 * 1024
@@ -26,13 +26,13 @@ module EasyType
     end
 
     module Upcase
-      def munge(string)
+      def unsafe_munge(string)
         string.upcase
       end
     end
 
     module Downcase
-      def munge(string)
+      def unsafe_munge(string)
         string.downcase
       end
     end

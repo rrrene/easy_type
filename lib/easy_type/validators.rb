@@ -16,7 +16,7 @@ module EasyType
 		  #
 		  # @raise [Puppet::Error] when the name is invalid
 		  #
-			def validate(value)
+			def unsafe_validate(value)
         raise Puppet::Error, "Name must not contain whitespace: #{value}" if value =~ /\s/
         raise Puppet::Error, "Name must not be empty" if value.empty?
       end
@@ -29,7 +29,7 @@ module EasyType
 		  ##
 		  # TODO: Add Api description
 		  #
-			def validate(value)
+			def unsafe_validate(value)
         raise Puppet::Error, "Invalid integer value: #{value}" if value =~ /^\d+$/
       end
 
