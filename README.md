@@ -9,6 +9,9 @@ If you recognize this thought process, easy_type is for you. Like the name says,
 ##Tutorial
 Check [this blog post](http://hajee.github.io/2014/01/26/puppet-custom-types-the-easy-way/) for a tutorial on using `easy_type`.
 
+##Documentation
+Check the [rdoc](http://rubydoc.info/github/hajee/easy_type/master/frames) documentation for easy_type
+
 ##Get Started
 To get started, you first need to include `easy_type` in your `Puppetfile` or otherwise get it into your puppet directories. To add it to your `Puppetfile`, you can add the following line:
 
