@@ -3,3 +3,7 @@ coverage/
 .bundle/
 
 pkg/
+
+/.yardoc/
+
+/doc/

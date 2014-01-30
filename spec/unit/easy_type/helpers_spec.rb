@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 
 require 'spec_helper'
-require 'easy_type/utils.rb'
+require 'easy_type/helpers.rb'
 
 
 describe "convert_csv_data_to_hash" do
-	include EasyType::Utils
+	include EasyType::Helpers
 
 	context "a valid comma separated string with header" do
 		subject { "col1,col2,col3\nvalue1,value2,value3"}
@@ -40,10 +40,10 @@ describe "convert_csv_data_to_hash" do
 
 end
 
-describe EasyType::Utils::InstancesResults do
-	include EasyType::Utils
+describe EasyType::Helpers::InstancesResults do
+	include EasyType::Helpers
 
-	let(:the_hash) {EasyType::Utils::InstancesResults[:known_key,10]}
+	let(:the_hash) {EasyType::Helpers::InstancesResults[:known_key,10]}
 	subject {the_hash.column_data(key)}
 
 	describe "#column_data" do

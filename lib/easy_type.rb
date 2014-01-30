@@ -9,11 +9,11 @@ require 'easy_type/file_includer'
 require 'easy_type/command_builder'
 require 'easy_type/group'
 require 'easy_type/template'
-require 'easy_type/utils'
+require 'easy_type/helpers'
 
 module EasyType
 	def self.included(parent)
-		parent.send(:include, EasyType::Utils)
+		parent.send(:include, EasyType::Helpers)
 		parent.send(:include, EasyType::FileIncluder)
 		parent.send(:include, EasyType::Template)
 		if parent.ancestors.include?(Puppet::Type)

@@ -1,5 +1,7 @@
 module EasyType
   module FileIncluder
+
+    # @private
     def self.included(parent)
       parent.extend(FileIncluder)
     end
@@ -9,10 +11,13 @@ module EasyType
     # like when defining Custum Types. include_file uses the already established search path. If you need to include a file
     # from a subdircetory, use the subdirectory name
     # 
-    # Example:
+    # @example
+    #
     #  include_file 'puppet/types/ora'
     #
     # @param name [String] this is the name of the file to be included
+    # @raise [ArgumentError] when the specified file is not found
+    # @return the evaluated content of the file
     #
     #
     def include_file(name)

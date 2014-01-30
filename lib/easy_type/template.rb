@@ -1,5 +1,10 @@
 module EasyType
+  #
+  # Contains a template helper method. 
+  #
   module Template
+
+    # @private
     def self.included(parent)
       parent.extend(Template)
     end
@@ -9,11 +14,14 @@ module EasyType
     # in the template directory on the same level as the ruby library path. For most puppet classes
     # this is eqal to the normal template path of a module
     # 
-    # Example:
-    #  templae 'create_tablespace.sql', binding
+    # @example
+    #  template 'create_tablespace.sql', binding
     #
-    # @param name [String] this is the name of the template to be used
-    # @param name [Bindig] this is the binding to be used in the template
+    # @param [String] name this is the name of the template to be used
+    # @param [Binding] context this is the binding to be used in the template
+    #
+    # @raise [ArgumentError] when the file doesn't exist
+    # @return [String] interpreted ERB template
     #
     def template(name, context)
       full_name = get_erb_file(name)
