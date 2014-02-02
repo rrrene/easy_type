@@ -37,3 +37,16 @@ shared_examples "after results set" do
 	end
 end
 
+
+shared_examples "has no entries" do
+	it "has no entries" do
+		expect(subject.entries).to be_empty
+	end
+end
+
+
+shared_examples "a block with acceptable commands passed" do
+	it "has at least 1 entry" do
+		expect(subject.entries).to > 0
+	end
+end

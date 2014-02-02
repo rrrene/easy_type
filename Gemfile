@@ -12,7 +12,6 @@ group :development, :test do
     gem 'guard-rspec'
     gem 'pry'
     gem 'pry-debugger'
-    gem 'pry-stack_explorer'
   end
 end
 
