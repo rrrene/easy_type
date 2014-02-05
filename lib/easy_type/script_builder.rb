@@ -1,3 +1,6 @@
+require 'easy_type/command_entry'
+require 'easy_type/blank_slate'
+
 module EasyType
 	#
 	# The command builder is a class that helps building an OS command sequence. You can specify 
@@ -6,43 +9,67 @@ module EasyType
 	# supports this by using the `before` and `after` methods
 	#
 	class ScriptBuilder
-		attr_reader :acceptable_commands, :entries
-
-		class BlankSlate
-
-			if RUBY_VERSION == "1.8.7"
-				REQUIRED_METHODS = ['instance_eval', 'object_id', '__send__', '__id__']
-			else
-				REQUIRED_METHODS = [:instance_eval, :object_id, :__send__, :__id__]
-			end
-			instance_methods.each { |m| undef_method m unless REQUIRED_METHODS.include?(m) }
-
-			def eigenclass 
-		    class << self
-		      self
-		    end
-	    end 
 
 
-		end
-
+		attr_reader :acceptable_commands, :binding
 
 		def initialize(options = {}, &block)
-			@acceptable_commands = options.fetch(:acceptable_commands) {[]}
+			@entries ||= []
+			@acceptable_commands = Array(options.fetch(:acceptable_commands) {[]})
+			@binding = options[:binding]
+			CommandEntry.set_binding(@binding) if @binding
 			@context = BlankSlate.new
-			@entries = []
-
 			@acceptable_commands.each do | command|
 				@context.eigenclass.send(:define_method,command) do |*args|
-					@entries << Struct.new(:command => command, :arguments => args)
+					@entries[type] << CommandEntry.new(command, args)
 				end
 			end
+			@context.type = :main
+			@context.instance_eval(&block) if block
+		end
 
-			def default_command
-				@acceptable_commands.first || ''
+		def entries(type = :main)
+			@context.entries[type]
+		end
+
+		def default_command
+			@acceptable_commands.first || ''
+		end
+
+		def last_command(type = :main)
+			entries(type).last
+		end
+
+		def <<(line)
+			raise ArgumentError, 'no command specified' unless last_command
+			last_command.arguments << line
+		end
+
+		def before(&block)
+			add_to_queue(:before, &block)
+		end
+
+		def after(&block)
+			add_to_queue(:after, &block)
+		end
+
+		def execute
+			@context.execute
+			results
+		end
+
+		def results(type = :main)
+			@context.results[type].join("\n")
+		end
+
+		private
+
+			def add_to_queue(queue, &block)
+				raise ArgumentError, 'block must be present' unless block
+				@context.type = queue
+				@context.instance_eval(&block)
 			end
 
-		end
 
 	end
 
