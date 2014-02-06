@@ -17,8 +17,11 @@ module EasyType
 			@entries ||= []
 			@acceptable_commands = Array(options.fetch(:acceptable_commands) {[]})
 			@binding = options[:binding]
-			CommandEntry.set_binding(@binding) if @binding
 			@context = BlankSlate.new
+			if @binding
+				CommandEntry.set_binding(@binding)
+				copy_resource_info
+			end
 			@acceptable_commands.each do | command|
 				@context.eigenclass.send(:define_method,command) do |*args|
 					@entries[type] << CommandEntry.new(command, args)
@@ -38,6 +41,15 @@ module EasyType
 
 		def last_command(type = :main)
 			entries(type).last
+		end
+
+		def add(*args, &block)
+			if block
+				add_to_queue(:main, &block)
+				nil
+			else
+				entries(:main) << CommandEntry.new(default_command, args) unless args == [nil] #special case
+			end
 		end
 
 		def <<(line)
@@ -70,6 +82,14 @@ module EasyType
 				@context.instance_eval(&block)
 			end
 
+			def copy_resource_info
+				return unless @binding.respond_to?(:to_hash)
+				@binding.to_hash.each_pair do | key, value|
+					@context.eigenclass.send(:define_method,key) do 
+						value
+					end
+				end
+			end
 
 	end
 

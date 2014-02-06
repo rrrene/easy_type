@@ -15,6 +15,7 @@ module EasyType
 			parent.extend(ClassMethods)
 		end
 
+
 		#
 		# Return the groups the type contains 
 		#
@@ -22,6 +23,15 @@ module EasyType
 		#
 		def groups
 			self.class.groups
+		end
+
+		#
+		# Return the defined commands for the type
+		#
+		# @return [Array] of [Symbol] with all commands
+		#
+		def commands
+			self.class.instance_variable_get(:@commands)
 		end
 
 		module ClassMethods
@@ -102,15 +112,18 @@ module EasyType
 	    #
 			# @param [Symbol] method_or_command method or os command name
 			#
-			def set_command(method_or_command)
-				method_or_command = method_or_command.to_s if RUBY_VERSION == "1.8.7"
-				unless methods.include?(method_or_command)
-					define_os_command_method(method_or_command)
-				end
-				define_method(:command) do | *args |
-					self.class.send(method_or_command, *args)
+			def set_command(methods_or_commands)
+				@commands ||= []
+				methods_or_commands = Array(methods_or_commands) # ensure Array
+				methods_or_commands.each do | method_or_command|
+					method_or_command = method_or_command.to_s if RUBY_VERSION == "1.8.7"
+					@commands << method_or_command
+					unless methods.include?(method_or_command)
+						define_os_command_method(method_or_command)
+					end
 				end
 			end
+
 
 			# @private
 			def define_os_command_method(method_or_command)

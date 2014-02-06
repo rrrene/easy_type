@@ -56,7 +56,7 @@ module EasyType
     def create
       @property_flush = @resource
       @property_hash[:ensure] = :present
-      command = build_from_type(resource.on_create)
+      command = build_from_type(resource.method(:on_create))
       command.execute
       @property_flush = {}
     end
@@ -67,7 +67,9 @@ module EasyType
     #  - The on_destroy value of the Type
     #
     def destroy
-      command = CommandBuilder.new(model, resource.method(:command), resource.on_destroy)
+      command = ScriptBuilder.new( :binding => model, :acceptable_commands => resource.commands)
+      line = resource.on_destroy(command)
+      command.add(line)
       command.execute
       @property_hash.clear
       @property_flush = {}
@@ -82,15 +84,17 @@ module EasyType
     #
     def flush
       if @property_flush && @property_flush != {}
-        command = build_from_type(resource.on_modify)
+        command = build_from_type(resource.method(:on_modify))
         command.execute
       end
     end
 
     private
     # @private
-    def build_from_type(line)
-      command_builder = CommandBuilder.new(model, resource.method(:command), line)
+    def build_from_type(block)
+      command_builder = ScriptBuilder.new( :binding => model, :acceptable_commands => resource.commands)
+      line = block.call( command_builder)
+      command_builder.add(line)
       resource.properties.each do | prop |
         command_builder << "#{prop.on_apply command_builder} " if should_be_in_command(prop)
       end
