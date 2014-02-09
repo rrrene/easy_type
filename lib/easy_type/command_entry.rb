@@ -18,7 +18,7 @@ class CommandEntry
 			@@binding.send(normalized_command, *arguments.join(' '))
 		else
 			full_command = arguments.dup.unshift(command) 
-			Puppet::Util::Execution.execute(full_command)
+			Puppet::Util::Execution.execute(full_command,:failonfail => true)
 		end
 	end
 

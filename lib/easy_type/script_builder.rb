@@ -54,7 +54,18 @@ module EasyType
 
 		def <<(line)
 			raise ArgumentError, 'no command specified' unless last_command
-			last_command.arguments << line
+			last_command.arguments << line if line
+		end
+
+		def append(line = '', &block)
+			last_argument = last_command.arguments.pop
+			if block
+				new_argument = last_argument + @context.instance_eval(&block)
+			else
+				new_argument = last_argument + line
+			end
+			last_command.arguments << new_argument
+			nil
 		end
 
 		def before(&block)

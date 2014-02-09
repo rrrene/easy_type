@@ -67,9 +67,7 @@ module EasyType
     #  - The on_destroy value of the Type
     #
     def destroy
-      command = ScriptBuilder.new( :binding => model, :acceptable_commands => resource.commands)
-      line = resource.on_destroy(command)
-      command.add(line)
+      command = build_from_type(resource.method(:on_destroy))
       command.execute
       @property_hash.clear
       @property_flush = {}
@@ -92,7 +90,7 @@ module EasyType
     private
     # @private
     def build_from_type(block)
-      command_builder = ScriptBuilder.new( :binding => model, :acceptable_commands => resource.commands)
+      command_builder = ScriptBuilder.new( :binding => resource, :acceptable_commands => resource.commands)
       line = block.call( command_builder)
       command_builder.add(line)
       resource.properties.each do | prop |
