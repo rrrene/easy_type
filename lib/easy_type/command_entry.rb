@@ -8,7 +8,7 @@ class CommandEntry
 
 	def initialize(command, arguments)
 		@command = command
-		@arguments = arguments.collect{|e| e.split(' ')}.flatten
+		@arguments = Array(arguments).collect{|e| e.split(' ')}.flatten
 	end
 
 

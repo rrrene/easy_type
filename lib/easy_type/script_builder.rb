@@ -57,7 +57,25 @@ module EasyType
 			last_command.arguments << line if line
 		end
 
-		def append(line = '', &block)
+		#
+		# For backward compatibility
+		#
+		def line
+			raise ArgumentError, 'no command specified' unless last_command
+			last_command.arguments.join(' ')
+		end
+
+		#
+		# For backward compatibility
+		#
+		def line=(line)
+			raise ArgumentError, 'no command specified' unless last_command
+			last_command.arguments.clear
+			last_command.arguments << line.split(' ')
+		end
+
+
+		def append(line = nil, &block)
 			last_argument = last_command.arguments.pop
 			if block
 				new_argument = last_argument + @context.instance_eval(&block)
@@ -68,12 +86,12 @@ module EasyType
 			nil
 		end
 
-		def before(&block)
-			add_to_queue(:before, &block)
+		def before(line = nil, &block)
+			add_to_queue(:before, line, &block)
 		end
 
-		def after(&block)
-			add_to_queue(:after, &block)
+		def after(line = nil, &block)
+			add_to_queue(:after, line, &block)
 		end
 
 		def execute
@@ -87,10 +105,14 @@ module EasyType
 
 		private
 
-			def add_to_queue(queue, &block)
-				raise ArgumentError, 'block must be present' unless block
-				@context.type = queue
-				@context.instance_eval(&block)
+			def add_to_queue(queue, line, &block)
+				raise ArgumentError, 'block or line must be present' unless block or line
+				if line
+					entries(queue) << CommandEntry.new(default_command, line)
+				else
+					@context.type = queue
+					@context.instance_eval(&block)
+				end
 			end
 
 			def copy_resource_info

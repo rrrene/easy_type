@@ -153,7 +153,18 @@ describe EasyType::ScriptBuilder do
 			end
 		end
 
-		context "no block given" do
+		context "a line given" do
+			subject {object.before('before')}
+
+
+			it "add's an before command" do
+				subject
+				expect(object.last_command(:before).arguments.first).to eq 'before'
+			end
+		end
+
+
+		context "no block and no line given" do
 
 			subject do
 				object.before
@@ -187,7 +198,18 @@ describe EasyType::ScriptBuilder do
 			end
 		end
 
-		context "no block given" do
+		context "a line given" do
+			subject {object.after('after')}
+
+
+			it "add's an after command" do
+				subject
+				expect(object.last_command(:after).arguments.first).to eq 'after'
+			end
+		end
+
+
+		context "no block and no line given" do
 
 			subject do
 				object.after
@@ -255,5 +277,74 @@ describe EasyType::ScriptBuilder do
 		end
 
 	end
+
+	describe "#line" do
+
+		subject {object.line}
+
+
+		context "no command given yet" do
+
+			let(:object) {described_class.new(options)}
+
+			it "raises an exception" do
+				expect{subject}.to raise_error
+			end
+		end
+
+
+		context "a command already entered" do
+			let(:object) do
+				described_class.new(:acceptable_commands => :echo) do
+					echo '1 2 3'
+				end
+			end
+
+			it "returns the last line" do
+				expect(subject).to eq '1 2 3'
+			end
+
+		end
+
+
+	end
+
+
+	describe "#line=" do
+
+		subject {object.line = 'a b c'}
+
+
+		context "no command given yet" do
+
+			let(:object) {described_class.new(options)}
+
+			it "raises an exception" do
+				expect{subject}.to raise_error
+			end
+		end
+
+
+		context "a command already entered" do
+
+			let(:object) do
+				described_class.new(:acceptable_commands => :echo) do
+					echo '1 2 3'
+				end
+			end
+
+
+			it "returns the last line" do
+				subject
+				expect(object.line).to eq 'a b c'
+			end
+
+		end
+
+
+	end
+
+
+
 
 end
