@@ -8,7 +8,7 @@ class CommandEntry
 
 	def initialize(command, arguments)
 		@command = command
-		@arguments = Array(arguments).collect{|e| e.split(' ')}.flatten
+		@arguments = Array(arguments)
 	end
 
 
@@ -17,7 +17,7 @@ class CommandEntry
 		if @@binding.methods.include?(normalized_command)
 			@@binding.send(normalized_command, *arguments.join(' '))
 		else
-			full_command = arguments.dup.unshift(command) 
+			full_command = arguments.dup.unshift(command).join(' ') 
 			Puppet::Util::Execution.execute(full_command,:failonfail => true)
 		end
 	end
