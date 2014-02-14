@@ -28,15 +28,18 @@ module EasyType
 		# @param [Array] headers of [Symbols] specifying the key's of the Hash
 		# @return [Array] of [InstancesResults] a special Hash 
 		#
-		def convert_csv_data_to_hash(csv_data, headers = [])
+		def convert_csv_data_to_hash(csv_data, headers = [], options = {})
 			data = []
+			line_delimeter = options.fetch(:line_delimeter) { "\n"}
+			column_delimeter = options.fetch(:column_delimeter) {','}
+			row_header = options.fetch(:row_header) { '----'}
 
-			csv_data.split("\n").each do | row |
-				columnized = row.split(',')
+			csv_data.split(line_delimeter).each do | row |
+				columnized = row.split(column_delimeter)
 				columnized.map!{|column| column.strip}
 				if headers.empty?
 					headers = columnized
-				elsif row.include?('----')
+				elsif row.include?(row_header)
 					#do nothing
 				else
 					values = headers.zip(columnized)
