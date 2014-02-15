@@ -53,7 +53,7 @@ module EasyType
 		end
 
 		def <<(line)
-			raise ArgumentError, 'no command specified' unless last_command
+			Puppet.debug 'no command specified' unless last_command
 			last_command.arguments << line if line
 		end
 
@@ -61,7 +61,7 @@ module EasyType
 		# For backward compatibility
 		#
 		def line
-			raise ArgumentError, 'no command specified' unless last_command
+			Puppet.debug 'no command specified' unless last_command
 			last_command.arguments.join(' ')
 		end
 
@@ -69,7 +69,7 @@ module EasyType
 		# For backward compatibility
 		#
 		def line=(line)
-			raise ArgumentError, 'no command specified' unless last_command
+			Puppet.debug 'no command specified' unless last_command
 			last_command.arguments.clear
 			last_command.arguments << line.split(' ')
 		end
