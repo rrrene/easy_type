@@ -27,9 +27,44 @@ module EasyType
     # @return [String] interpreted ERB template
     #
     def template(name, context)
-      template_file = Puppet::FileServing::Content.indirection.find(name)
-      raise Puppet::ParseError, "Could not find template '#{name}'" unless template_file
-      ERB.new(template_file.content).result(context)
+      ERB.new(load_file(name).content).result(context)
+    end
+
+  private
+    def load_file(name)
+      # Somehow there is no consistent way to determine what terminus to user. So we switch to a
+      # trial and error method. First we start withe the default. And if it doesn't work, we try the
+      # other ones
+      template_file = load_file_with_default_terminus(name)
+      rescue 
+      ensure
+        template_file = load_file_with_other_termini(name) unless template_file
+        raise ArgumentError, "Could not find template '#{name}'" unless template_file
+        template_file
+    end
+
+    def load_file_with_default_terminus(name)
+      Puppet::FileServing::Content.indirection.find(name)
+    end
+
+    def load_file_with_other_termini
+      termini_to_try = [:rest, :file_server] - Puppet[:default_file_terminus]
+      current_terminus = Puppet[:default_file_terminus]
+      termini_to_try.each do | terminus|
+        template_file = with_terminus(terminus) do
+          Puppet::FileServing::Content.indirection.find(name)
+        end
+        return template_file if template_file
+      end
+      nil
+    end
+
+    def with_terminus(terminus)
+      old_terminus = Puppet[:default_file_terminus]
+      Puppet[:default_file_terminus] = terminus
+      value = yield
+      Puppet[:default_file_terminus] = old_terminus
+      value
     end
   end
 
