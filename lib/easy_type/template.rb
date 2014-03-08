@@ -33,13 +33,23 @@ module EasyType
   private
     def load_file(name)
       if Puppet[:server] && Puppet[:server] != ''
-        Puppet[:default_file_terminus] = :rest
+        terminus = :rest
       else
-        Puppet[:default_file_terminus] = :fileserver
+        terminus = :fileserver
       end
-      template_file = Puppet::FileServing::Content.indirection.find(name)
-      raise ArgumentError, "Could not find template '#{name}'" unless template_file
-      template_file
+      with_terminus(terminus) do
+        template_file = Puppet::FileServing::Content.indirection.find(name)
+        raise ArgumentError, "Could not find template '#{name}'" unless template_file
+        template_file
+      end
+    end
+
+    def with_terminus(terminus)
+      old_terminus = Puppet[:default_file_terminus]
+      Puppet[:default_file_terminus] = terminus
+      value = yield
+      Puppet[:default_file_terminus] = old_terminus
+      value
     end
   end
 
