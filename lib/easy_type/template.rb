@@ -32,16 +32,20 @@ module EasyType
 
   private
     def load_file(name)
-      if Puppet[:server] && Puppet[:server] != ''
-        terminus = :rest
-      else
+      if runs_standalone?
         terminus = :fileserver
+      else
+        terminus = :rest
       end
       with_terminus(terminus) do
         template_file = Puppet::FileServing::Content.indirection.find(name)
         raise ArgumentError, "Could not find template '#{name}'" unless template_file
         template_file
       end
+    end
+
+    def runs_standalone?
+      Puppet[:catalog_terminus] == :compiler
     end
 
     def with_terminus(terminus)
