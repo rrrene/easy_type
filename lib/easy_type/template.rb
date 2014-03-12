@@ -32,24 +32,33 @@ module EasyType
 
   private
     def load_file(name)
-      # require 'ruby-debug'
-      # debugger
-      terminus  = runs_standalone? ? :file_server : :rest
-      with_terminus(terminus) do
-        template_file = Puppet::FileServing::Content.indirection.find(name)
+      # Somehow there is no consistent way to determine what terminus to user. So we switch to a
+      # trial and error method. First we start withe the default. And if it doesn't work, we try the
+      # other ones
+      require 'ruby-debug'
+      debugger
+      template_file = load_file_with_default_terminus(name)
+      rescue 
+      ensure
+        template_file = load_file_with_other_termini(name) unless template_file
         raise ArgumentError, "Could not find template '#{name}'" unless template_file
         template_file
-      end
     end
 
-    def runs_standalone?
-      #
-      # There does not seem to be a deterministic way to decide if we are on a standalone system
-      # or running in conjunction with a puppet master. So we deduct that when the reporturl contains
-      # the term localhost, we are running standalone
-      # TODO: Find a deterministic way to decide
-      #
-      Puppet[:catalog_terminus] == :compiler && Puppet[:reporturl].to_s.include?('localhost')
+    def load_file_with_default_terminus(name)
+      Puppet::FileServing::Content.indirection.find(name)
+    end
+
+    def load_file_with_other_termini
+      termini_to_try = [:rest, :file_server] - Puppet[:default_file_terminus]
+      current_terminus = Puppet[:default_file_terminus]
+      termini_to_try.each do | terminus|
+        template_file = with_terminus(terminus) do
+          Puppet::FileServing::Content.indirection.find(name)
+        end
+        return template_file if template_file
+      end
+      nil
     end
 
     def with_terminus(terminus)
