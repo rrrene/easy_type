@@ -34,7 +34,7 @@ module EasyType
     def load_file(name)
       # require 'ruby-debug'
       # debugger
-      terminus  = runs_standalone? ? :fileserver : :rest
+      terminus  = runs_standalone? ? :file_server : :rest
       with_terminus(terminus) do
         template_file = Puppet::FileServing::Content.indirection.find(name)
         raise ArgumentError, "Could not find template '#{name}'" unless template_file
@@ -43,7 +43,13 @@ module EasyType
     end
 
     def runs_standalone?
-      Puppet[:catalog_terminus] == :compiler && Puppet[:default_file_terminus] == :fileserver
+      #
+      # There does not seem to be a deterministic way to decide if we are on a standalone system
+      # or running in conjunction with a puppet master. So we deduct that when the reporturl contains
+      # the term localhost, we are running standalone
+      # TODO: Find a deterministic way to decide
+      #
+      Puppet[:catalog_terminus] == :compiler && Puppet[:reporturl].to_s.include?('localhost')
     end
 
     def with_terminus(terminus)
