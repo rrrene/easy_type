@@ -8,7 +8,9 @@ rvm:
 bundler_args: --without development
 before_install:
   -  gem update --system 2.1.11 # Temporary fix till rubygems works ok
-script: bundle exec rspec spec
+script:
+  - bundle exec rspec spec
+  - bundle exec rubocop
 # matrix:
 #   allow_failures:
 #     -rvm: jruby-19mode
