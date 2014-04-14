@@ -181,9 +181,8 @@ module EasyType
       def prefetch(resources)
         objects = instances
         resources.keys.each do |name|
-          if provider = objects.find { |object| object.name == name }
-            resources[name].provider = provider
-          end
+          provider = objects.find { |object| object.name == name }
+          resources[name].provider = provider if provider
         end
       end
       # rubocop:enable IfUnlessModifier
