@@ -21,6 +21,7 @@ describe EasyType::Type do
 
   subject { Puppet::Type::Test.new(:name => 'test') }
 
+
   describe ".on_create" do
 
     before do
@@ -110,6 +111,7 @@ describe EasyType::Type do
       module Puppet
         class Type
           class Test
+
             property  :a_test
             parameter :b_test
           end
@@ -123,6 +125,10 @@ describe EasyType::Type do
 
     it "defines a parameter" do
       expect( defined?(Puppet::Type::Test::ParameterB_test)).to be_true
+    end
+
+    it "adds a conveniance access method" do
+      pending
     end
 
   end

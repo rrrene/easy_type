@@ -15,6 +15,27 @@ module EasyType
       parent.extend(ClassMethods)
     end
 
+    def method_missing(meth, *args, &block)
+      variable = meth.to_sym
+      if known_attribute(variable)
+        self[variable]
+      else
+        super # You *must* call super if you don't handle the
+              # method, otherwise you'll mess up Ruby's method
+              # lookup.
+      end
+    end
+
+    # @private
+    def respond_to?(meth, include_private = false)
+      variable = meth.to_sym
+      if known_attribute(variable)
+        true
+      else
+        super
+      end
+    end
+
     #
     # Return the groups the type contains
     #
@@ -32,6 +53,14 @@ module EasyType
     def commands
       self.class.instance_variable_get(:@commands)
     end
+
+    private
+    # @private
+    def known_attribute(attribute)
+      all_attributes = self.class.properties.map(&:name) + self.class.parameters
+      all_attributes.include?(attribute)
+    end
+
 
     # @nodoc
     module ClassMethods
