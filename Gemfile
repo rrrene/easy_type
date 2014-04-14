@@ -2,8 +2,8 @@ source 'https://rubygems.org'
 
 group :development, :test do
   gem 'rake',    :require => false
-  gem 'rubocop', :github => 'bbatsov/rubocop',  :require => false
   platform :ruby_19, :ruby_20 do
+    gem 'rubocop', :github => 'bbatsov/rubocop',  :require => false
     gem 'travis'
     gem 'travis-lint'
     gem 'vagrant-wrapper'

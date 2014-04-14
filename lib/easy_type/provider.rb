@@ -181,7 +181,7 @@ module EasyType
       def prefetch(resources)
         objects = instances
         resources.keys.each do |name|
-          if provider == objects.find { |object| object.name == name }
+          if provider = objects.find { |object| object.name == name }
             resources[name].provider = provider
           end
         end
